@@ -18,8 +18,8 @@
 
                 <div>
                     <label for="description">Description: </label>
-                    <textarea v-model.lazy="deckDescription" id="description" name="description"></textarea>
-                    ({{ 200 - deckDescription.length }} left)
+                    <textarea v-model="deckDescription" id="description" name="description"></textarea>
+                    ({{ charsLeft() }} left)
                 </div>
 
                 <div class="options">
@@ -80,9 +80,18 @@
                         categoryId: ''
                     };
                 },
+                // if can use computed its better because its cached unlike methods
+                computed: {
+                    // charsLeft() {
+                    //     return 200 - this.deckDescription.length;
+                    // }
+                },
                 methods: {
                     submit() {
                         alert('submitting...');
+                    },
+                    charsLeft() {
+                        return 200 - this.deckDescription.length;
                     }
                 }
             };
