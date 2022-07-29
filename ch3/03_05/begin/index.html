@@ -8,10 +8,16 @@
     <body>
         <div id="app">
             <h1 v-text="deckName"></h1>
-
-            <div @click="flipped = !flipped" class="card">
+            <!-- again shouold appear in the class list IF isRepeat is true. The class again makes background yellow. -->
+            <div @click="flipped = !flipped" :class="{again: isRepeat, anotherClass: somethingIsTruthy}" class="card">
                 <h2 v-if="!flipped" v-text="front"></h2>
-                <div v-else v-html="back"></div>
+                <div v-else>
+                <div v-html="back"></div>
+                    <div class="score">
+                        <button @click.stop="gotIt">GOT IT</button>
+                        <button @click.stop="again">AGAIN</button>
+                    </div>
+                </div>
             </div>
 
             <div class="navigation">
@@ -39,9 +45,28 @@
                 methods: {
                     move(change) {
                         if (this.cards[this.index + change]) {
-                            this.flipped = false;
                             this.index += change;
                         }
+                        else {
+                            this.index = change == 1 ? 0 : this.cards.length-1;
+                        }
+                        this.flipped = false;
+                    },
+                    // remove item from the list
+                    gotIt() {
+                        if (this.cards.length === 1) {
+                            return alert('Well done!');
+                        }
+                        this.cards.splice(this.index, 1);
+                        if (! this.cards[this.index]) {
+                            this.index = 0;
+                        }
+                        this.flipped = false;
+                    },
+                    // flag for current card that needs review
+                    again() {
+                        this.cards[this.index].isRepeat = true;
+                        this.move(1);
                     }
                 },
                 computed: {
@@ -50,6 +75,9 @@
                     },
                     back() {
                         return this.cards[this.index].back;
+                    },
+                    isRepeat() {
+                        return this.cards[this.index].isRepeat;
                     }
                 }
             };
