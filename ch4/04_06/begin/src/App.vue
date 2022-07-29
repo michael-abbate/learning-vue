@@ -1,15 +1,15 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Flashcard App"/>
+  <DeckName name='Vue.js Fundamentals' />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import DeckName from './components/DeckName';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    DeckName
   }
 }
 </script>
